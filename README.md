@@ -41,6 +41,32 @@ Beyond basic priority sorting, the scheduler includes several additional feature
 - **Recurring tasks** — Tasks can be marked as `"daily"` or `"weekly"`. Calling `Scheduler.mark_task_complete(task)` marks the task done and automatically creates the next occurrence using Python's `timedelta`, adding it back to the correct pet.
 - **Conflict detection** — `Scheduler.detect_conflicts()` scans all tasks with an assigned `time` field and returns every pair that shares the same time slot, so the owner can resolve clashes before the day starts.
 
+## Testing PawPal+
+
+Run the full test suite with:
+
+```bash
+python -m pytest tests/test_pawpal.py -v
+```
+
+### What the tests cover
+
+| Area | Tests |
+|---|---|
+| **Task completion** | Verifies `mark_complete()` flips `completed` from `False` to `True` |
+| **Pet task management** | Verifies `add_task()` correctly grows a pet's task list |
+| **Sorting** | Verifies `sort_by_time()` returns tasks shortest-first and does not mutate the original list |
+| **Recurring tasks** | Verifies daily tasks schedule the next day, weekly tasks schedule 7 days out, one-time tasks do not recur, and the completed flag is set on the original |
+| **Conflict detection** | Verifies overlapping time slots are flagged, non-overlapping slots return no conflicts, and tasks without a time field are ignored |
+
+### Confidence Level
+
+⭐⭐⭐⭐ (4 / 5)
+
+The core scheduling behaviors — priority ordering, time budgeting, recurring task generation, and conflict detection — are all covered and passing. One star is held back because edge cases like an empty pet list, zero available minutes, or two pets with the same name are not yet tested. Those would be the next tests to write.
+
+---
+
 ### Suggested workflow
 
 1. Read the scenario carefully and identify requirements and edge cases.
