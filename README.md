@@ -32,6 +32,15 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+## Smarter Scheduling
+
+Beyond basic priority sorting, the scheduler includes several additional features:
+
+- **Priority filtering** — `Owner.filter_by_priority(n)` returns all tasks across all pets at a given priority level (1 = low, 2 = medium, 3 = high), making it easy to surface only the most critical items.
+- **Sort by duration** — `Scheduler.sort_by_time(tasks)` reorders any task list shortest-first, useful for filling remaining time gaps after high-priority tasks are placed.
+- **Recurring tasks** — Tasks can be marked as `"daily"` or `"weekly"`. Calling `Scheduler.mark_task_complete(task)` marks the task done and automatically creates the next occurrence using Python's `timedelta`, adding it back to the correct pet.
+- **Conflict detection** — `Scheduler.detect_conflicts()` scans all tasks with an assigned `time` field and returns every pair that shares the same time slot, so the owner can resolve clashes before the day starts.
+
 ### Suggested workflow
 
 1. Read the scenario carefully and identify requirements and edge cases.
